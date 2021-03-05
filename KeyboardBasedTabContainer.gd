@@ -121,6 +121,7 @@ func _unhandled_input(event):
 			node.grab_focus()
 			node.grab_click_focus()
 			content_container.modulate = default_modulate
+			get_tree().set_input_as_handled()
 
 	elif event.is_action_pressed("ui_cancel"):
 		var pressed_tab_button = tabs_button_group.get_pressed_button()
@@ -128,6 +129,8 @@ func _unhandled_input(event):
 			pressed_tab_button.grab_click_focus()
 			pressed_tab_button.grab_focus()
 			content_container.modulate = inactive_content_modulate
+			get_tree().set_input_as_handled()
+	
 	
 
 func on_button_focused(button: Button):
@@ -148,9 +151,11 @@ func set_tab_disabled(i: int, value: bool):
 		new_focused_node.grab_focus()
 		new_focused_node.grab_click_focus()
 		
+	tab_button.focus_mode = Control.FOCUS_NONE
 	tab_button.disabled = value
 	tab_button.group = tabs_button_group if value else null
 	assign_tab_neighbours()
-	
+
 func set_current_tab(i: int):
 	tabs_container.get_child(i).pressed = true
+	
